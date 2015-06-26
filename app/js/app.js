@@ -2,10 +2,10 @@
  * @Author: chenhao
  * @Date:   2015-06-25 10:37:20
  * @Last Modified by:   chenhao
- * @Last Modified time: 2015-06-26 08:56:37
+ * @Last Modified time: 2015-06-26 21:49:50
  */
 'use strict';
-var app = angular.module('app', ['ui.bootstrap', 'ngRoute']);
+var app = angular.module('app', ['ui.bootstrap', 'ngRoute', 'ngGrid']);
 app.config(['$routeProvider', '$locationProvider', '$sceProvider',
     function($routeProvider, $locationProvider, $sceProvider) {
         $routeProvider.when('/', {
@@ -14,6 +14,9 @@ app.config(['$routeProvider', '$locationProvider', '$sceProvider',
         }).when('/about', {
             templateUrl: '/templates/about.html',
             controller: 'AboutCtrl'
+        }).when('/user', {
+            templateUrl: '/templates/user.html',
+            controller: 'UserCtrl'
         }).otherwise({
             redirectTo: '/'
         });
@@ -61,7 +64,15 @@ app.controller('NavBarController', function($scope){
         return ul;
     };
 }).controller('WelComeCtrl', function($scope) {
-    $scope.words = '首页';
+
 }).controller('AboutCtrl', function($scope) {
-    $scope.words = '关于';
+    
+}).controller('UserCtrl', function($scope) {
+    $scope.myData = [
+        {name: "Moroni", age: 50},
+        {name: "Tiancum", age: 43},
+        {name: "Jacob", age: 27},
+        {name: "Nephi", age: 29},
+        {name: "Enos", age: 34}];
+    $scope.gridOptions = { data: 'myData' };
 });
