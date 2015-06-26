@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+    <head>
+        <meta charset="utf-8">
+        <title>首页</title>
+        <meta name="description" content="">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="bower_components/Font-Awesome/css/font-awesome.min.css">
+        <link type="text/css" rel="stylesheet" href="bower_components/ionicons/css/ionicons.min.css" />
+        <link type="text/css" rel="stylesheet" href="css/index.css" />
+        <script type="text/javascript">
+            window.userId = "<%=user.userId%>";
+        </script>
+    </head>
+    <body  ng-app="app">
+        <nav class="navbar navbar-default" role="navigation" ng-controller="NavBarController">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#/">Node<b>CRM</b></a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li> <a href="#/about">关于</a></li>
+                    <li>
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+                            用户 
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:;">信息</a></li>
+                            <li class="divider"></li>
+                            <li><a href="javascript:;" ng-click="logout()">退出</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 col-md-2 sidebar-menu" ng-controller="MenuTreeCtrl"></div>
+                <div class="col-sm-9 col-md-10" ng-view></div>
+            </div>
+        </div>
+        <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js" ></script>
+        <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js" ></script>
+        <script type="text/javascript" src="bower_components/angular/angular.min.js" ></script>
+        <script type="text/javascript" src="bower_components/angular-route/angular-route.min.js" ></script>
+        <script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js" ></script>
+        <script type="text/javascript" src="js/app.js"></script>
+    </body>
+</html>
