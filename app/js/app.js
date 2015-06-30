@@ -2,7 +2,7 @@
  * @Author: chenhao
  * @Date:   2015-06-25 10:37:20
  * @Last Modified by:   chenhao
- * @Last Modified time: 2015-06-26 21:49:50
+ * @Last Modified time: 2015-06-30 15:52:25
  */
 'use strict';
 var app = angular.module('app', ['ui.bootstrap', 'ngRoute', 'ngGrid']);
@@ -67,12 +67,64 @@ app.controller('NavBarController', function($scope){
 
 }).controller('AboutCtrl', function($scope) {
     
-}).controller('UserCtrl', function($scope) {
-    $scope.myData = [
-        {name: "Moroni", age: 50},
-        {name: "Tiancum", age: 43},
-        {name: "Jacob", age: 27},
-        {name: "Nephi", age: 29},
-        {name: "Enos", age: 34}];
-    $scope.gridOptions = { data: 'myData' };
+}).controller('UserCtrl', function($scope, $http) {
+     $scope.filterOptions = {
+        filterText: "",
+        useExternalFilter: true
+    }; 
+    $scope.totalServerItems = 0;
+    $scope.pagingOptions = {
+        pageSizes: [5, 50, 100],
+        pageSize: 5,
+        currentPage: 1
+    };  
+    $scope.setPagingData = function(data, page, pageSize){  
+        var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
+        $scope.myData = pagedData;
+        $scope.totalServerItems = data.length;
+        if (!$scope.$$phase) {
+            $scope.$apply();
+        }
+    };
+    $scope.getPagedDataAsync = function (pageSize, page, searchText) {
+        $http({
+            method: 'POST',
+            url: '/action/user/query'
+        }).success(function(largeLoad) {
+            var obj = $scope.gridOptions.selectedItems;
+            obj.splice(0,obj.length);
+            $scope.setPagingData(largeLoad,page,pageSize);
+        });
+    };
+    
+    $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
+    
+    $scope.$watch('pagingOptions', function (newVal, oldVal) {
+        if (newVal !== oldVal || newVal.currentPage !== oldVal.currentPage) {
+          $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
+        }
+    }, true);
+    $scope.$watch('filterOptions', function (newVal, oldVal) {
+        if (newVal !== oldVal) {
+          $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
+        }
+    }, true);
+    
+    $scope.gridOptions = {
+        data: 'myData',
+        enablePaging: true,
+        showFooter: true,
+        totalServerItems: 'totalServerItems',
+        pagingOptions: $scope.pagingOptions,
+        filterOptions: $scope.filterOptions,
+        selectedItems: [],
+        columnDefs: [
+            {field:'userId', displayName:'用户编码'}, 
+            {field:'userName', displayName:'用户名'},
+            {field:'password', displayName:'密码'},
+            {field:'email', displayName:'邮箱'}
+        ]
+    };
+
+    
 });
