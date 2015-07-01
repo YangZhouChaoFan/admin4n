@@ -2,7 +2,7 @@
 * @Author: chenhao
 * @Date:   2015-06-09 15:14:38
 * @Last Modified by:   chenhao
-* @Last Modified time: 2015-06-17 10:36:36
+* @Last Modified time: 2015-07-01 10:27:10
 */
 
 var user = {
@@ -10,7 +10,8 @@ var user = {
     userName : "",  //用户名
     password : "",  //密码
     email: "",      //邮箱
-    query: "SELECT * FROM user WHERE 1=1 "
+    query: "SELECT * FROM user WHERE 1=1 ",
+    delete: "DELETE FROM user WHERE userId in (?)",
 }
 
-module.exports = user;
+module.exports = user;  

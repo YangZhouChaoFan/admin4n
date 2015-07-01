@@ -2,7 +2,7 @@
  * @Author: chenhao
  * @Date:   2015-06-25 10:37:20
  * @Last Modified by:   chenhao
- * @Last Modified time: 2015-06-30 15:52:25
+ * @Last Modified time: 2015-07-01 09:57:14
  */
 'use strict';
 var app = angular.module('app', ['ui.bootstrap', 'ngRoute', 'ngGrid']);
@@ -68,14 +68,15 @@ app.controller('NavBarController', function($scope){
 }).controller('AboutCtrl', function($scope) {
     
 }).controller('UserCtrl', function($scope, $http) {
+
      $scope.filterOptions = {
         filterText: "",
         useExternalFilter: true
     }; 
     $scope.totalServerItems = 0;
     $scope.pagingOptions = {
-        pageSizes: [5, 50, 100],
-        pageSize: 5,
+        pageSizes: [10, 50, 100],
+        pageSize: 10,
         currentPage: 1
     };  
     $scope.setPagingData = function(data, page, pageSize){  
@@ -112,8 +113,10 @@ app.controller('NavBarController', function($scope){
     
     $scope.gridOptions = {
         data: 'myData',
+        i18n:'zh-cn',
         enablePaging: true,
         showFooter: true,
+        showSelectionCheckbox: true,
         totalServerItems: 'totalServerItems',
         pagingOptions: $scope.pagingOptions,
         filterOptions: $scope.filterOptions,
@@ -126,5 +129,28 @@ app.controller('NavBarController', function($scope){
         ]
     };
 
-    
+    $scope.insert = function(){
+
+    };
+
+    $scope.update = function(){
+
+    };
+
+    $scope.delete = function(){
+        var selectedItems = $scope.gridOptions.selectedItems;
+        var ids = [];
+        for(var i = 0; i < selectedItems.length; i++){
+            ids.push(selectedItems[i]["userId"]);
+        }
+        $http({
+            method: 'POST',
+            url: '/action/user/delete',
+            data: ids
+        }).success(function(results){
+            //刷新列表
+            $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
+        });
+    };
+
 });
