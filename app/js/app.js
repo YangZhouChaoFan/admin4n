@@ -2,11 +2,11 @@
  * @Author: chenhao
  * @Date:   2015-06-25 10:37:20
  * @Last Modified by:   chenhao
- * @Last Modified time: 2015-07-01 09:57:14
+ * @Last Modified time: 2015-07-01 15:41:54
  */
 'use strict';
-var app = angular.module('app', ['ui.bootstrap', 'ngRoute', 'ngGrid']);
-app.config(['$routeProvider', '$locationProvider', '$sceProvider',
+angular.module('app', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
+.config(['$routeProvider', '$locationProvider', '$sceProvider',
     function($routeProvider, $locationProvider, $sceProvider) {
         $routeProvider.when('/', {
             templateUrl: '/templates/welcome.html',
@@ -22,13 +22,18 @@ app.config(['$routeProvider', '$locationProvider', '$sceProvider',
         });
         //$locationProvider.html5Mode(true);
     }
-]);
+])
+.controller('NavBarController', function($scope){
 
-app.controller('NavBarController', function($scope){
+    //退出按钮
     $scope.logout = function(){
         console.log("退出");
     }
+
 }).controller('MenuTreeCtrl', function($scope, $http, $compile){
+
+    //加载菜单树
+    console.log("加载菜单树");
     $http({
         method: 'POST',
         url: '/action/menu/query',
@@ -47,6 +52,7 @@ app.controller('NavBarController', function($scope){
         });
     });
 
+    //转换html
     var getMenuTreeHtml = function(jsons, parentId){
          var ul = "";
         if(parentId == 0){
@@ -64,93 +70,7 @@ app.controller('NavBarController', function($scope){
         return ul;
     };
 }).controller('WelComeCtrl', function($scope) {
-
+    console.log("加载欢迎...");
 }).controller('AboutCtrl', function($scope) {
-    
-}).controller('UserCtrl', function($scope, $http) {
-
-     $scope.filterOptions = {
-        filterText: "",
-        useExternalFilter: true
-    }; 
-    $scope.totalServerItems = 0;
-    $scope.pagingOptions = {
-        pageSizes: [10, 50, 100],
-        pageSize: 10,
-        currentPage: 1
-    };  
-    $scope.setPagingData = function(data, page, pageSize){  
-        var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
-        $scope.myData = pagedData;
-        $scope.totalServerItems = data.length;
-        if (!$scope.$$phase) {
-            $scope.$apply();
-        }
-    };
-    $scope.getPagedDataAsync = function (pageSize, page, searchText) {
-        $http({
-            method: 'POST',
-            url: '/action/user/query'
-        }).success(function(largeLoad) {
-            var obj = $scope.gridOptions.selectedItems;
-            obj.splice(0,obj.length);
-            $scope.setPagingData(largeLoad,page,pageSize);
-        });
-    };
-    
-    $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
-    
-    $scope.$watch('pagingOptions', function (newVal, oldVal) {
-        if (newVal !== oldVal || newVal.currentPage !== oldVal.currentPage) {
-          $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
-        }
-    }, true);
-    $scope.$watch('filterOptions', function (newVal, oldVal) {
-        if (newVal !== oldVal) {
-          $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
-        }
-    }, true);
-    
-    $scope.gridOptions = {
-        data: 'myData',
-        i18n:'zh-cn',
-        enablePaging: true,
-        showFooter: true,
-        showSelectionCheckbox: true,
-        totalServerItems: 'totalServerItems',
-        pagingOptions: $scope.pagingOptions,
-        filterOptions: $scope.filterOptions,
-        selectedItems: [],
-        columnDefs: [
-            {field:'userId', displayName:'用户编码'}, 
-            {field:'userName', displayName:'用户名'},
-            {field:'password', displayName:'密码'},
-            {field:'email', displayName:'邮箱'}
-        ]
-    };
-
-    $scope.insert = function(){
-
-    };
-
-    $scope.update = function(){
-
-    };
-
-    $scope.delete = function(){
-        var selectedItems = $scope.gridOptions.selectedItems;
-        var ids = [];
-        for(var i = 0; i < selectedItems.length; i++){
-            ids.push(selectedItems[i]["userId"]);
-        }
-        $http({
-            method: 'POST',
-            url: '/action/user/delete',
-            data: ids
-        }).success(function(results){
-            //刷新列表
-            $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
-        });
-    };
-
+    console.log("加载关于...");
 });
