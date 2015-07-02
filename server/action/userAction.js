@@ -2,7 +2,7 @@
 * @Author: chenhao
 * @Date:   2015-06-09 12:51:03
 * @Last Modified by:   chenhao
-* @Last Modified time: 2015-07-01 10:39:55
+* @Last Modified time: 2015-07-02 10:19:53
 */
 
 var express = require('express');
@@ -29,6 +29,7 @@ router.post("/user/insert", function(req, res){
             res.json({msg: '新增失败'});
             return;
         }
+        res.json({msg: '新增成功'});
     });
 });
 
@@ -40,6 +41,7 @@ router.post("/user/update", function(req, res){
             res.json({msg: '修改失败'});
             return;
         }
+        res.json({msg: '修改成功'});
     });
 });
 

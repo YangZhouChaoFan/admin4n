@@ -2,7 +2,7 @@
 * @Author: chenhao
 * @Date:   2015-06-09 13:07:55
 * @Last Modified by:   chenhao
-* @Last Modified time: 2015-07-01 10:13:50
+* @Last Modified time: 2015-07-02 10:19:57
 */
 var userDao = require('../dao/userDao.js');
 

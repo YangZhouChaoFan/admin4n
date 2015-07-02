@@ -2,8 +2,12 @@
 * @Author: chenhao
 * @Date:   2015-06-25 13:19:59
 * @Last Modified by:   chenhao
-* @Last Modified time: 2015-06-25 16:37:36
+* @Last Modified time: 2015-07-02 09:05:51
 */
+
+*{
+    font-family: 'Microsoft Yahei';
+}
 .sidebar-menu .fa{
     width: 20px;
 }

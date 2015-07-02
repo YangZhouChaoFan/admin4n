@@ -2,7 +2,7 @@
  * @Author: chenhao
  * @Date:   2015-06-25 10:37:20
  * @Last Modified by:   chenhao
- * @Last Modified time: 2015-07-01 15:41:54
+ * @Last Modified time: 2015-07-02 10:48:13
  */
 'use strict';
 angular.module('app', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
@@ -15,7 +15,7 @@ angular.module('app', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
             templateUrl: '/templates/about.html',
             controller: 'AboutCtrl'
         }).when('/user', {
-            templateUrl: '/templates/user.html',
+            templateUrl: '/templates/user/user.html',
             controller: 'UserCtrl'
         }).otherwise({
             redirectTo: '/'
@@ -23,6 +23,9 @@ angular.module('app', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
         //$locationProvider.html5Mode(true);
     }
 ])
+.factory('flag', function() {
+    return false;
+})
 .controller('NavBarController', function($scope){
 
     //退出按钮
@@ -70,7 +73,7 @@ angular.module('app', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
         return ul;
     };
 }).controller('WelComeCtrl', function($scope) {
-    console.log("加载欢迎...");
+    console.log("加载首页...");
 }).controller('AboutCtrl', function($scope) {
     console.log("加载关于...");
 });
