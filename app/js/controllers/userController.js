@@ -2,7 +2,7 @@
 * @Author: chenhao
 * @Date:   2015-07-01 11:23:48
 * @Last Modified by:   chenhao
-* @Last Modified time: 2015-07-02 13:31:10
+* @Last Modified time: 2015-07-02 13:57:35
 */
 
 'use strict';
@@ -83,7 +83,8 @@ function UserCtrl ($scope, $http, $modal) {
     $scope.update = function(){
         var selectedItems = $scope.gridOptions.selectedItems;
         if(selectedItems.length != 1){
-            alert(请选择一条记录);
+            alert("请选择一条记录");
+            return;
         }
         $modal.open({
             templateUrl: "/templates/user/userModal.html",
@@ -95,6 +96,11 @@ function UserCtrl ($scope, $http, $modal) {
     };
 
     $scope.delete = function(){
+        var selectedItems = $scope.gridOptions.selectedItems;
+        if(selectedItems.length == 0){
+            alert("请至少选择一条记录");
+            return;
+        }
         var selectedItems = $scope.gridOptions.selectedItems;
         var ids = [];
         for(var i = 0; i < selectedItems.length; i++){

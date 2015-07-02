@@ -40,7 +40,7 @@ app.use(session({
 app.use('/action', function (req, res, next) {
   var url = req.originalUrl;
   if(!req.session.user && url.indexOf("login") == -1){
-    res.render("login");
+    res.redirect("/login.html");
     return;
   }
   next();

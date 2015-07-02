@@ -2,7 +2,7 @@
  * @Author: chenhao
  * @Date:   2015-06-25 10:37:20
  * @Last Modified by:   chenhao
- * @Last Modified time: 2015-07-02 10:48:13
+ * @Last Modified time: 2015-07-02 13:57:30
  */
 'use strict';
 angular.module('app', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
