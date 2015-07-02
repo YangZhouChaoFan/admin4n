@@ -2,7 +2,7 @@
  * @Author: chenhao
  * @Date:   2015-06-25 10:37:20
  * @Last Modified by:   chenhao
- * @Last Modified time: 2015-07-02 13:57:30
+ * @Last Modified time: 2015-07-02 15:48:49
  */
 'use strict';
 angular.module('app', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
@@ -17,6 +17,15 @@ angular.module('app', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
         }).when('/user', {
             templateUrl: '/templates/user/user.html',
             controller: 'UserCtrl'
+        }).when('/role', {
+            templateUrl: '/templates/role/role.html',
+            controller: 'RoleCtrl'
+        }).when('/menu', {
+            templateUrl: '/templates/menu/menu.html',
+            controller: 'MenuCtrl'
+        }).when('/log', {
+            templateUrl: '/templates/log/log.html',
+            controller: 'LogCtrl'
         }).otherwise({
             redirectTo: '/'
         });

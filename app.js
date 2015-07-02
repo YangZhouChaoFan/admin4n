@@ -10,6 +10,7 @@ var index = require('./server/action/indexAction');
 var login = require('./server/action/loginAction');
 var menu = require('./server/action/menuAction');
 var user = require('./server/action/userAction');
+//var role = require('./server/action/roleAction');
 
 var app = express();
 
@@ -51,6 +52,7 @@ app.use('/', index);
 app.use('/action', login);
 app.use('/action', menu); 
 app.use('/action', user); 
+//app.use('/action', role); 
 
 app.use(express.static(path.join(__dirname, 'app')));
 
