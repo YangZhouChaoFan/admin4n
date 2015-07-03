@@ -2,7 +2,7 @@
  * @Author: chenhao
  * @Date:   2015-06-11 14:33:36
  * @Last Modified by:   chenhao
- * @Last Modified time: 2015-07-03 11:06:02
+ * @Last Modified time: 2015-07-03 13:56:09
  */
 var express = require('express');
 var menuService = require('../service/menuService.js');
@@ -22,7 +22,6 @@ router.post("/menu/queryByUserId", function(req, res) {
 //查询菜单
 router.post("/menu/query", function(req, res) {
     var data = req.body;
-    console.log(data);
     menuService.query(data, function(err, results) {
         if (err) {
             return;

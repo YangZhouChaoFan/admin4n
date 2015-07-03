@@ -2,6 +2,17 @@
 <html lang="zh_cn">
     <head>
         <meta charset="utf-8">
+        <style type="text/css">
+            .gridStyle {
+                border: 1px solid rgb(212,212,212);
+                width: 80%;
+                height: 390px;
+            }
+            .ngGridMaxPagesNumber {
+                display: inline-block;
+                margin-top: -10px;
+            }
+        </style>
     </head>
     <body>
         <section class="content-header">
@@ -10,6 +21,13 @@
                 <li class="active"><i class="fa fa-group"></i> 角色</li>
             </ol>
         </section>
-    
+        
+        <div class="btn-group" role="group" aria-label="工具栏">
+            <button type="button" class="btn btn-default" ng-click="insert()">新增</button>
+            <button type="button" class="btn btn-default" ng-click="update()">修改</button>
+            <button type="button" class="btn btn-default" ng-click="delete()">删除</button>
+        </div>
+
+        <div class="gridStyle" ng-grid="gridOptions"></div>
     </body>
 </html>
