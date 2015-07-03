@@ -2,7 +2,7 @@
  * @Author: chenhao
  * @Date:   2015-06-25 10:37:20
  * @Last Modified by:   chenhao
- * @Last Modified time: 2015-07-02 15:48:49
+ * @Last Modified time: 2015-07-03 10:51:00
  */
 'use strict';
 angular.module('app', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
@@ -48,7 +48,7 @@ angular.module('app', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
     console.log("加载菜单树");
     $http({
         method: 'POST',
-        url: '/action/menu/query',
+        url: '/action/menu/queryByUserId',
         data: {
             userId: window.userId
         }

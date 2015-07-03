@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <form role="form" id="userForm">
+            <div class="modal-header">
+                <div class="modal-title">菜单信息</div>
+            </div>
+            <div class="modal-body">
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="menuName">菜单名称</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="text" id="menuName" ng-model="menu.menuName">
+                        </div>
+                        <label class="col-md-2 control-label" for="parentId">父级菜单</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="parentId" ng-model="menu.parentId">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="path">路径</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="text" id="path" ng-model="menu.path">
+                        </div>
+                        <label class="col-md-2 control-label" for="level">顺序</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="level" ng-model="menu.level">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="menuIcon">菜单图标</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="text" id="menuIcon" ng-model="menu.menuIcon">
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="ok()">保存</button>
+                <button class="btn btn-default" ng-click="cancel()">取消</button>
+            </div>
+        </form>
+    </body>
+</html>
