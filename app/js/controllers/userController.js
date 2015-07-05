@@ -2,7 +2,7 @@
 * @Author: chenhao
 * @Date:   2015-07-01 11:23:48
 * @Last Modified by:   chenhao
-* @Last Modified time: 2015-07-05 13:48:37
+* @Last Modified time: 2015-07-05 19:49:05
 */
 
 'use strict';
@@ -220,23 +220,92 @@ function UserUpdateCtrl($scope, $modalInstance, $http, grid){
  */
 function roleSettingCtrl($scope, $modalInstance, $http, grid, $compile){
 
+    /**
+     * 初始化
+     * @type {Object}
+     */
+    $scope.role = {};
+
+    $scope.$watch('role', function (newVal, oldVal) {
+        var flag = true;
+        for(var key in $scope.role){
+             if(!$scope.role[key]){
+                flag = false;
+             }
+        }
+        if(flag){
+            $scope.all = true;
+        }else{
+            $scope.all = false;
+        }
+    }, true);
+
+    $scope.selectAll = function(){
+        for(var key in $scope.role){
+            $scope.role[key] = !$scope.all;
+        }
+    }
+    
     $http({
         method: 'POST',
-        url: '/action/user/role/query',
+        url: '/action/role/query',
     }).success(function(results){
         var html = getRoleHtml(results);
         var template = angular.element(html);
         var element = $compile(template)($scope);
-        angular.element(".modal-body").append(element);
+        angular.element(".modal-body .container").append(element);
+        getUserRole();
     });
+
+    //获取角色html
+    function getRoleHtml(results){
+        var html = "";
+        for(var i = 0; i < results.length; i += 2){
+            html += "<div class='row'>";
+            if(i == results.length - 1){
+                $scope.role[results[i].roleId] = false;
+                html += "<div class='col-md-3'>";
+                html += "<input id='role" + i + "' type='checkbox' ng-checked='role." + results[i].roleId + "' ng-model='role." + results[i].roleId + "'>";
+                html += "<label for='role" + i + "' style='cursor: pointer; margin-left: 5px;'>" + results[i].roleName + "</label>";
+                html += "</div>";
+            }else{
+                $scope.role[results[i].roleId] = false;
+                $scope.role[results[i + 1].roleId] = false;
+                html += "<div class='col-md-3'>";
+                html += "<input id='role" + i + "' type='checkbox' ng-checked='role." + results[i].roleId + "' ng-model='role." + results[i].roleId + "'>";
+                html += "<label for='role" + i + "' style='cursor: pointer; margin-left: 5px;'>" + results[i].roleName + "</label>";
+                html += "</div>";
+                html += "<div class='col-md-3'>";
+                html += "<input id='role" + (i + 1) + "' type='checkbox' ng-checked='role." + results[i + 1].roleId + "' ng-model='role." + results[i + 1].roleId + "'>";
+                html += "<label for='role" + (i + 1) + "' style='cursor: pointer; margin-left: 5px;'>" + results[(i + 1)].roleName + "</label>";
+                html += "</div>";
+            }
+            html += "</div>";
+        }
+        return html;
+    }
+
+    //获取用户角色
+    function getUserRole(){
+            $http({
+            method: 'POST',
+            url: '/action/role/queryByUserId',
+            data: {userId: grid.gridOptions.selectedItems[0].userId}
+        }).success(function(results){
+            for(var i = 0; i < results.length; i++){
+                $scope.role[results[i].roleId] = true;
+            }
+        });
+    }
 
     $scope.ok = function () {
         $http({
             method: 'POST',
-            url: '/action/user/role/update',
-            data: $scope.user
+            url: '/action/role/updateByUserId',
+            data: {role: $scope.role, userId: grid.gridOptions.selectedItems[0].userId}
         }).success(function(results){
             //刷新列表
+            window.cc = $scope;
             grid.getPagedDataAsync(grid.pagingOptions.pageSize, grid.pagingOptions.currentPage);
             $modalInstance.close();
         });
@@ -246,29 +315,4 @@ function roleSettingCtrl($scope, $modalInstance, $http, grid, $compile){
         $modalInstance.dismiss('cancel');
     };
 
-    //获取角色html
-    function getRoleHtml(results){
-        var html = "<div class='container'>";
-        for(var i = 0; i < results.length; i += 2){
-            html += "<div class='row'>";
-            if(i == results.length - 1){
-                html += "<div class='col-md-3'>";
-                html += "<input id='role" + i + "' type='checkbox'>";
-                html += "<label for='role" + i + "' style='cursor: pointer; margin-left: 5px;'>" + results[i].roleName + "</label>";
-                html += "</div>";
-            }else{
-                html += "<div class='col-md-3'>";
-                html += "<input id='role" + i + "' type='checkbox'>";
-                html += "<label for='role" + i + "' style='cursor: pointer; margin-left: 5px;'>" + results[i].roleName + "</label>";
-                html += "</div>";
-                html += "<div class='col-md-3'>";
-                html += "<input id='role" + (i + 1) + "' type='checkbox'>";
-                html += "<label for='role" + (i + 1) + "' style='cursor: pointer; margin-left: 5px;'>" + results[(i + 1)].roleName + "</label>";
-                html += "</div>";
-            }
-            html += "</div>";
-        }
-        html += "</div>";
-        return html;
-    }
 }

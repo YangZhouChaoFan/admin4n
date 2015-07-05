@@ -2,12 +2,11 @@
 * @Author: chenhao
 * @Date:   2015-06-09 12:51:03
 * @Last Modified by:   chenhao
-* @Last Modified time: 2015-07-05 12:22:28
+* @Last Modified time: 2015-07-05 18:41:04
 */
 
 var express = require('express');
 var userService = require('../service/userService.js');
-var roleService = require('../service/roleService.js');
 var router = express.Router();
 
 //查询用户
@@ -56,24 +55,6 @@ router.post("/user/delete", function(req, res){
         }
         res.json({msg: '删除成功'});
     });
-});
-
-//查询角色
-router.post("/user/role/query", function(req, res){
-    var data = req.body;
-    roleService.query(data, function(err, results){
-        if(err){
-            res.json({msg: '查询失败'});
-            return;
-        }
-        res.json(results);
-    });
-});
-
-//设置角色
-router.post("/user/role/update", function(req, res){
-    var data = req.body;
-    res.json({msg: '更新成功'});
 });
 
 module.exports = router;

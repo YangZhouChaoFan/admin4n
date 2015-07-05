@@ -2,12 +2,34 @@
 * @Author: chenhao
 * @Date:   2015-07-03 13:50:49
 * @Last Modified by:   chenhao
-* @Last Modified time: 2015-07-03 13:52:23
+* @Last Modified time: 2015-07-05 19:01:08
 */
 
 'use strict';
 
 var roleDao = require('../dao/roleDao.js');
+
+//查询用户角色
+exports.queryByUserId = function(data, callback){
+    roleDao.queryByUserId(data, function(err, results){
+        if(err){
+            callback(true);
+            return;
+        }
+        callback(false, results);
+    });
+};
+
+//查询用户角色
+exports.updateByUserId = function(data, callback){
+    roleDao.updateByUserId(data, function(err, results){
+        if(err){
+            callback(true);
+            return;
+        }
+        callback(false, results);
+    });
+};
 
 //查询角色
 exports.query = function(data, callback){

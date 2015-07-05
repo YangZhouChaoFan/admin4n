@@ -2,7 +2,7 @@
 * @Author: chenhao
 * @Date:   2015-07-03 13:52:41
 * @Last Modified by:   chenhao
-* @Last Modified time: 2015-07-03 14:05:57
+* @Last Modified time: 2015-07-05 20:23:08
 */
 
 'use strict';
@@ -10,6 +10,79 @@
 var db = require('../database.js');
 var roleModel = require('../model/roleModel.js');
 var req2Sql = require('../util/req2Sql.js');
+
+//加载角色
+exports.queryByUserId = function(data, callback) {
+    var sql = roleModel.queryByUserId;
+    req2Sql.getReqSqlByQeury(data, function(reqSql){
+        sql += reqSql;
+        console.log("加载角色: " + sql);
+        // get a connection from the pool
+        db.mysqlPool.getConnection(function(err, connection) {
+            if (err) {
+                connection.release();
+                callback(true);      
+                return;
+            }
+            // make the query
+            connection.query(sql, function(err, results) {
+                connection.release();
+                if (err) {
+                    callback(true);
+                    return;
+                }
+                callback(false, results);
+            });
+        });
+    });
+};
+
+//修改用户角色
+exports.updateByUserId = function(data, callback) {
+    var sql = roleModel.deleteByUserId + data.userId;
+    console.log("清空用户角色: " + sql);
+    // get a connection from the pool
+    db.mysqlPool.getConnection(function(err, connection) {
+        if (err) {
+            callback(true);
+            connection.release();
+            return;
+        }
+        // make the query
+        connection.query(sql, function(err) {
+            if (err) {
+                callback(true);
+                return;
+            }
+
+            sql = roleModel.insertByUserId;
+            var flag = false; 
+            for(var key in data.role){
+                if(data.role[key]){
+                    flag = true;
+                    sql += '(';
+                    sql += key + ',' + data.userId;
+                    sql += '),';
+                }
+            }
+            sql = sql.substr(0, sql.length - 1);
+            if(flag){
+                console.log("新增用户角色: " + sql);
+                connection.query(sql, function(err){
+                    if (err) {
+                        callback(true);
+                        return;
+                    }
+                    callback(false);
+                    connection.release();
+                });
+            }else{
+                callback(false);
+                connection.release();
+            }
+        });
+    });
+};
 
 //查询角色
 exports.query = function(data, callback) {
