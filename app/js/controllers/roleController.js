@@ -2,14 +2,24 @@
 * @Author: chenhao
 * @Date:   2015-07-02 14:48:55
 * @Last Modified by:   chenhao
-* @Last Modified time: 2015-07-03 13:57:18
+* @Last Modified time: 2015-07-05 13:31:02
 */
 
 'use strict';
 
+/**
+ * 角色控制
+ * @param {[type]} $scope [description]
+ * @param {[type]} $http  [description]
+ * @param {[type]} $modal [description]
+ */
 function RoleCtrl($scope, $http, $modal){
     console.log("加载角色管理...");
 
+    /**
+     * 配置ng-grid
+     * @type {Object}
+     */
     $scope.filterOptions = {
         filterText: "",
         useExternalFilter: true
@@ -68,6 +78,7 @@ function RoleCtrl($scope, $http, $modal){
         ]
     };
 
+    //新增
     $scope.insert = function(){
         $modal.open({
             templateUrl: "/templates/role/roleModal.html",
@@ -78,6 +89,7 @@ function RoleCtrl($scope, $http, $modal){
         });
     };
 
+    //更新
     $scope.update = function(){
         var selectedItems = $scope.gridOptions.selectedItems;
         if(selectedItems.length != 1){
@@ -93,6 +105,7 @@ function RoleCtrl($scope, $http, $modal){
         });
     };
 
+    //删除
     $scope.delete = function(){
         var selectedItems = $scope.gridOptions.selectedItems;
         if(selectedItems.length == 0){
@@ -115,6 +128,13 @@ function RoleCtrl($scope, $http, $modal){
     };
 }
 
+/**
+ * 角色新增控制
+ * @param {[type]} $scope         [description]
+ * @param {[type]} $modalInstance [description]
+ * @param {[type]} $http          [description]
+ * @param {[type]} grid           [description]
+ */
 function RoleInsertCtrl($scope, $modalInstance, $http, grid){
     $scope.ok = function () {
         $http({
@@ -133,6 +153,13 @@ function RoleInsertCtrl($scope, $modalInstance, $http, grid){
     };
 }
 
+/**
+ * 角色更新控制
+ * @param {[type]} $scope         [description]
+ * @param {[type]} $modalInstance [description]
+ * @param {[type]} $http          [description]
+ * @param {[type]} grid           [description]
+ */
 function RoleUpdateCtrl($scope, $modalInstance, $http, grid){
 
     $http({

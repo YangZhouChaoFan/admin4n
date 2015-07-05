@@ -2,13 +2,24 @@
 * @Author: chenhao
 * @Date:   2015-07-02 15:39:08
 * @Last Modified by:   chenhao
-* @Last Modified time: 2015-07-03 11:09:33
+* @Last Modified time: 2015-07-05 13:32:36
 */
 
 'use strict';
+
+/**
+ * 菜单控制
+ * @param {[type]} $scope [description]
+ * @param {[type]} $http  [description]
+ * @param {[type]} $modal [description]
+ */
 function MenuCtrl ($scope, $http, $modal){
     console.log("加载菜单管理...");
 
+    /**
+     * 配置ng-grid
+     * @type {Object}
+     */
     $scope.filterOptions = {
         filterText: "",
         useExternalFilter: true
@@ -71,6 +82,7 @@ function MenuCtrl ($scope, $http, $modal){
         ]
     };
 
+    //新增
     $scope.insert = function(){
         $modal.open({
             templateUrl: "/templates/menu/menuModal.html",
@@ -81,6 +93,7 @@ function MenuCtrl ($scope, $http, $modal){
         });
     };
 
+    //更新
     $scope.update = function(){
         var selectedItems = $scope.gridOptions.selectedItems;
         if(selectedItems.length != 1){
@@ -96,6 +109,7 @@ function MenuCtrl ($scope, $http, $modal){
         });
     };
 
+    //删除
     $scope.delete = function(){
         var selectedItems = $scope.gridOptions.selectedItems;
         if(selectedItems.length == 0){
@@ -118,6 +132,13 @@ function MenuCtrl ($scope, $http, $modal){
     };
 }
 
+/**
+ * 菜单新增控制
+ * @param {[type]} $scope         [description]
+ * @param {[type]} $modalInstance [description]
+ * @param {[type]} $http          [description]
+ * @param {[type]} grid           [description]
+ */
 function MenuInsertCtrl($scope, $modalInstance, $http, grid){
     $scope.ok = function () {
         $http({
@@ -136,6 +157,13 @@ function MenuInsertCtrl($scope, $modalInstance, $http, grid){
     };
 }
 
+/**
+ * 菜单更新控制
+ * @param {[type]} $scope         [description]
+ * @param {[type]} $modalInstance [description]
+ * @param {[type]} $http          [description]
+ * @param {[type]} grid           [description]
+ */
 function MenuUpdateCtrl($scope, $modalInstance, $http, grid){
 
     $http({
