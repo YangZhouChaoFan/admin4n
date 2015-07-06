@@ -2,13 +2,35 @@
 * @Author: chenhao
 * @Date:   2015-06-09 13:07:55
 * @Last Modified by:   chenhao
-* @Last Modified time: 2015-07-03 10:53:44
+* @Last Modified time: 2015-07-06 11:17:08
 */
 var menuDao = require('../dao/menuDao.js');
 
-//查询菜单
+//查询用户菜单
 exports.queryByUserId = function(data, callback){
     menuDao.queryByUserId(data, function(err, results){
+        if(err){
+            callback(true);
+            return;
+        }
+        callback(false, results);
+    });
+};
+
+//查询角色菜单
+exports.queryByRoleId = function(data, callback){
+    menuDao.queryByRoleId(data, function(err, results){
+        if(err){
+            callback(true);
+            return;
+        }
+        callback(false, results);
+    });
+};
+
+//更新角色菜单
+exports.updateByRoleId = function(data, callback){
+    menuDao.updateByRoleId(data, function(err, results){
         if(err){
             callback(true);
             return;

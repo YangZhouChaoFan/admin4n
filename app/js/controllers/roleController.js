@@ -2,7 +2,7 @@
 * @Author: chenhao
 * @Date:   2015-07-02 14:48:55
 * @Last Modified by:   chenhao
-* @Last Modified time: 2015-07-05 13:31:02
+* @Last Modified time: 2015-07-06 11:30:39
 */
 
 'use strict';
@@ -126,6 +126,22 @@ function RoleCtrl($scope, $http, $modal){
             $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
         });
     };
+
+    //角色设置
+    $scope.menuSetting = function(){
+        var selectedItems = $scope.gridOptions.selectedItems;
+        if(selectedItems.length != 1){
+            alert("请选择一条记录");
+            return;
+        }
+        $modal.open({
+            templateUrl: "/templates/role/menuSetting.html",
+            controller: 'menuSettingCtrl',
+            resolve:{
+                grid: function(){ return $scope; }
+            }
+        });
+    };
 }
 
 /**
@@ -188,4 +204,111 @@ function RoleUpdateCtrl($scope, $modalInstance, $http, grid){
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
+}
+
+/**
+ * 菜单设置控制
+ * @param  {[type]} $scope         [description]
+ * @param  {[type]} $modalInstance [description]
+ * @param  {[type]} $http          [description]
+ * @param  {[type]} grid           [description]
+ * @param  {[type]} $compile       [description]
+ * @return {[type]}                [description]
+ */
+function menuSettingCtrl($scope, $modalInstance, $http, grid, $compile){
+
+    /**
+     * 初始化
+     * @type {Object}
+     */
+    $scope.menu = {};
+
+    $scope.$watch('menu', function (newVal, oldVal) {
+        var flag = true;
+        for(var key in $scope.menu){
+             if(!$scope.menu[key]){
+                flag = false;
+             }
+        }
+        if(flag){
+            $scope.all = true;
+        }else{
+            $scope.all = false;
+        }
+    }, true);
+
+    $scope.selectAll = function(){
+        for(var key in $scope.menu){
+            $scope.menu[key] = !$scope.all;
+        }
+    }
+    
+    $http({
+        method: 'POST',
+        url: '/action/menu/query',
+    }).success(function(results){
+        var html = getMenuHtml(results);
+        var template = angular.element(html);
+        var element = $compile(template)($scope);
+        angular.element(".modal-body .container").append(element);
+        getRoleMenu();
+    });
+
+    //获取角色html
+    function getMenuHtml(results){
+        var html = "";
+        for(var i = 0; i < results.length; i += 2){
+            html += "<div class='row'>";
+            if(i == results.length - 1){
+                $scope.menu[results[i].menuId] = false;
+                html += "<div class='col-md-3'>";
+                html += "<input id='menu" + i + "' type='checkbox' ng-checked='menu." + results[i].menuId + "' ng-model='menu." + results[i].menuId + "'>";
+                html += "<label for='menu" + i + "' style='cursor: pointer; margin-left: 5px;'>" + results[i].menuName + "</label>";
+                html += "</div>";
+            }else{
+                $scope.menu[results[i].menuId] = false;
+                $scope.menu[results[i + 1].menuId] = false;
+                html += "<div class='col-md-3'>";
+                html += "<input id='menu" + i + "' type='checkbox' ng-checked='menu." + results[i].menuId + "' ng-model='menu." + results[i].menuId + "'>";
+                html += "<label for='menu" + i + "' style='cursor: pointer; margin-left: 5px;'>" + results[i].menuName + "</label>";
+                html += "</div>";
+                html += "<div class='col-md-3'>";
+                html += "<input id='menu" + (i + 1) + "' type='checkbox' ng-checked='menu." + results[i + 1].menuId + "' ng-model='menu." + results[i + 1].menuId + "'>";
+                html += "<label for='menu" + (i + 1) + "' style='cursor: pointer; margin-left: 5px;'>" + results[(i + 1)].menuName + "</label>";
+                html += "</div>";
+            }
+            html += "</div>";
+        }
+        return html;
+    }
+
+    //获取用户角色
+    function getRoleMenu(){
+            $http({
+            method: 'POST',
+            url: '/action/menu/queryByRoleId',
+            data: {roleId: grid.gridOptions.selectedItems[0].roleId}
+        }).success(function(results){
+            for(var i = 0; i < results.length; i++){
+                $scope.menu[results[i].menuId] = true;
+            }
+        });
+    }
+
+    $scope.ok = function () {
+        $http({
+            method: 'POST',
+            url: '/action/menu/updateByRoleId',
+            data: {menu: $scope.menu, roleId: grid.gridOptions.selectedItems[0].roleId}
+        }).success(function(results){
+            //刷新列表
+            grid.getPagedDataAsync(grid.pagingOptions.pageSize, grid.pagingOptions.currentPage);
+            $modalInstance.close();
+        });
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+
 }

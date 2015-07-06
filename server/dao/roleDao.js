@@ -2,7 +2,7 @@
 * @Author: chenhao
 * @Date:   2015-07-03 13:52:41
 * @Last Modified by:   chenhao
-* @Last Modified time: 2015-07-05 20:23:08
+* @Last Modified time: 2015-07-06 11:09:58
 */
 
 'use strict';
@@ -11,7 +11,7 @@ var db = require('../database.js');
 var roleModel = require('../model/roleModel.js');
 var req2Sql = require('../util/req2Sql.js');
 
-//加载角色
+//查询用户角色
 exports.queryByUserId = function(data, callback) {
     var sql = roleModel.queryByUserId;
     req2Sql.getReqSqlByQeury(data, function(reqSql){

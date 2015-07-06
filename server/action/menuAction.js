@@ -2,13 +2,13 @@
  * @Author: chenhao
  * @Date:   2015-06-11 14:33:36
  * @Last Modified by:   chenhao
- * @Last Modified time: 2015-07-03 13:56:09
+ * @Last Modified time: 2015-07-06 11:16:56
  */
 var express = require('express');
 var menuService = require('../service/menuService.js');
 var router = express.Router();
 
-//加载菜单
+//查询用户菜单
 router.post("/menu/queryByUserId", function(req, res) {
     var data = req.body;
     menuService.queryByUserId(data, function(err, results) {
@@ -16,6 +16,30 @@ router.post("/menu/queryByUserId", function(req, res) {
             return;
         }        
         res.json(results);
+    });
+});
+
+//查询角色菜单
+router.post("/menu/queryByRoleId", function(req, res){
+    var data = req.body;
+    menuService.queryByRoleId(data, function(err, results){
+        if(err){
+            res.json({msg: '查询失败'});
+            return;
+        }
+        res.json(results);
+    });
+});
+
+//更新角色菜单
+router.post("/menu/updateByRoleId", function(req, res){
+    var data = req.body;
+    menuService.updateByRoleId(data, function(err){
+        if(err){
+            res.json({msg: '修改失败'});
+            return;
+        }
+        res.json({msg: '修改成功'});
     });
 });
 

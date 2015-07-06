@@ -2,7 +2,7 @@
 * @Author: chenhao
 * @Date:   2015-07-01 11:23:48
 * @Last Modified by:   chenhao
-* @Last Modified time: 2015-07-05 19:49:05
+* @Last Modified time: 2015-07-06 11:00:36
 */
 
 'use strict';
@@ -305,7 +305,6 @@ function roleSettingCtrl($scope, $modalInstance, $http, grid, $compile){
             data: {role: $scope.role, userId: grid.gridOptions.selectedItems[0].userId}
         }).success(function(results){
             //刷新列表
-            window.cc = $scope;
             grid.getPagedDataAsync(grid.pagingOptions.pageSize, grid.pagingOptions.currentPage);
             $modalInstance.close();
         });

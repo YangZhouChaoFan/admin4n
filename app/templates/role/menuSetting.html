@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <form role="form">
+            <div class="modal-header">
+                <div class="modal-title">设置菜单</div>
+            </div>
+            <div class="modal-body">
+                <div class='container'>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <input type="checkbox" id="all" ng-model="all" ng-click="selectAll()">
+                            <label for="all" style="cursor: pointer; margin-left: 5px;">全选</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="ok()">保存</button>
+                <button class="btn btn-default" ng-click="cancel()">取消</button>
+            </div>
+        </form>
+    </body>
+</html>

@@ -2,14 +2,14 @@
 * @Author: chenhao
 * @Date:   2015-06-11 11:25:04
 * @Last Modified by:   chenhao
-* @Last Modified time: 2015-07-03 11:03:49
+* @Last Modified time: 2015-07-06 11:34:14
 */
 
 var db = require('../database.js');
 var menuModel = require('../model/menuModel.js');
 var req2Sql = require('../util/req2Sql.js');
 
-//加载菜单
+//查询用户菜单
 exports.queryByUserId = function(data, callback) {
     var sql = menuModel.queryByUserId;
     req2Sql.getReqSqlByQeury(data, function(reqSql){
@@ -31,6 +31,81 @@ exports.queryByUserId = function(data, callback) {
                 }
                 callback(false, results);
             });
+        });
+    });
+};
+
+//查询角色菜单
+exports.queryByRoleId = function(data, callback) {
+    var sql = menuModel.queryByRoleId;
+    req2Sql.getReqSqlByQeury(data, function(reqSql){
+        sql += reqSql;
+        console.log("加载角色菜单: " + sql);
+        // get a connection from the pool
+        db.mysqlPool.getConnection(function(err, connection) {
+            if (err) {
+                connection.release();
+                callback(true);      
+                return;
+            }
+            // make the query
+            connection.query(sql, function(err, results) {
+                connection.release();
+                if (err) {
+                    console.log(results);
+                    callback(true);
+                    return;
+                }
+                callback(false, results);
+            });
+        });
+    });
+};
+
+//修改角色菜单
+exports.updateByRoleId = function(data, callback) {
+    console.log(data);
+    var sql = menuModel.deleteByRoleId + data.roleId;
+    console.log("清空角色菜单: " + sql);
+    // get a connection from the pool
+    db.mysqlPool.getConnection(function(err, connection) {
+        if (err) {
+            callback(true);
+            connection.release();
+            return;
+        }
+        // make the query
+        connection.query(sql, function(err) {
+            if (err) {
+                callback(true);
+                return;
+            }
+
+            sql = menuModel.insertByRoleId;
+            var flag = false; 
+            for(var key in data.menu){
+                if(data.menu[key]){
+                    flag = true;
+                    sql += '(';
+                    sql += key + ',' + data.roleId;
+                    sql += '),';
+                }
+            }
+            sql = sql.substr(0, sql.length - 1);
+            if(flag){
+                console.log("新增角色菜单: " + sql);
+                connection.query(sql, function(err){
+                    if (err) {
+                        callback(true);
+                        return;
+                    }
+                    callback(false);
+                    connection.release();
+                });
+            }else{
+                callback(false);
+                connection.release();
+            }
         });
     });
 };

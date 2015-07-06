@@ -2,7 +2,7 @@
 * @Author: chenhao
 * @Date:   2015-07-03 13:50:49
 * @Last Modified by:   chenhao
-* @Last Modified time: 2015-07-05 19:01:08
+* @Last Modified time: 2015-07-06 11:08:37
 */
 
 'use strict';
@@ -20,7 +20,7 @@ exports.queryByUserId = function(data, callback){
     });
 };
 
-//查询用户角色
+//更新用户角色
 exports.updateByUserId = function(data, callback){
     roleDao.updateByUserId(data, function(err, results){
         if(err){
