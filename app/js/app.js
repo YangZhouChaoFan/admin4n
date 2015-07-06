@@ -2,7 +2,7 @@
  * @Author: chenhao
  * @Date:   2015-06-25 10:37:20
  * @Last Modified by:   chenhao
- * @Last Modified time: 2015-07-06 12:25:44
+ * @Last Modified time: 2015-07-06 13:13:16
  */
 'use strict';
 angular.module('app', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
@@ -35,11 +35,18 @@ angular.module('app', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
 .factory('flag', function() {
     return false;
 })
-.controller('NavBarController', function($scope){
+.controller('NavBarController', function($scope, $http){
 
     //退出按钮
     $scope.logout = function(){
         console.log("退出");
+        $http({
+            method: 'POST',
+            url: '/action/logout'
+        }).success(function(results) {
+            console.log(results);
+            window.location.reload();
+        });
     }
 
 }).controller('MenuTreeCtrl', function($scope, $http, $compile){

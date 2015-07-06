@@ -2,7 +2,7 @@
 * @Author: chenhao
 * @Date:   2015-06-11 14:33:36
 * @Last Modified by:   chenhao
-* @Last Modified time: 2015-06-25 16:06:00
+* @Last Modified time: 2015-07-06 13:08:13
 */
 
 var express = require('express');
@@ -20,6 +20,12 @@ router.post("/login", function(req, res){
         req.session.user = results[0];
         res.redirect("/");
     });
+});
+
+//登出操作
+router.post("/logout", function(req, res){
+    delete req.session.user;
+    res.json({msg: "登出成功"});
 });
 
 module.exports = router;
