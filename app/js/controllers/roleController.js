@@ -2,7 +2,7 @@
 * @Author: chenhao
 * @Date:   2015-07-02 14:48:55
 * @Last Modified by:   chenhao
-* @Last Modified time: 2015-07-06 11:30:39
+* @Last Modified time: 2015-07-06 12:14:20
 */
 
 'use strict';
@@ -110,6 +110,9 @@ function RoleCtrl($scope, $http, $modal){
         var selectedItems = $scope.gridOptions.selectedItems;
         if(selectedItems.length == 0){
             alert("请至少选择一条记录");
+            return;
+        }
+        if(!confirm("删除是不可恢复的，你确认要删除吗？")){
             return;
         }
         var selectedItems = $scope.gridOptions.selectedItems;
