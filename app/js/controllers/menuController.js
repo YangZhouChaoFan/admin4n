@@ -143,6 +143,7 @@ function MenuCtrl ($scope, $http, $modal){
  * @param {[type]} grid           [description]
  */
 function MenuInsertCtrl($scope, $modalInstance, $http, grid){
+	$scope.menu = {};
     $scope.ok = function () {
         $http({
             method: 'POST',

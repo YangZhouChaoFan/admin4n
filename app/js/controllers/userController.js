@@ -158,6 +158,7 @@ function UserCtrl ($scope, $http, $modal) {
  * @param {[type]} grid           [description]
  */
 function UserInsertCtrl($scope, $modalInstance, $http, grid){
+	$scope.user = {};
     $scope.ok = function () {
         $http({
             method: 'POST',

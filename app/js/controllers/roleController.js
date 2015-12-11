@@ -155,6 +155,7 @@ function RoleCtrl($scope, $http, $modal){
  * @param {[type]} grid           [description]
  */
 function RoleInsertCtrl($scope, $modalInstance, $http, grid){
+	$scope.role = {};
     $scope.ok = function () {
         $http({
             method: 'POST',
